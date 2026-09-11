@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>WARSENAL</title>
+
+<link rel="stylesheet" href="./css/reset.css">
+<link rel="stylesheet" href="./css/variables.css">
+<link rel="stylesheet" href="./css/game.css">
+<link rel="stylesheet" href="./css/menu.css">
+<link rel="stylesheet" href="./css/hud.css">
+<link rel="stylesheet" href="./css/animations.css">
+<link rel="stylesheet" href="./css/responsive.css">
+</head>
+
+<body>
+
+<main id="game">
+
+    <!-- ==============================
+         GAME CANVAS
+         ============================== -->
+
+    <canvas id="gameCanvas"></canvas>
+
+
+    <!-- ==============================
+         MAIN MENU
+         ============================== -->
+
+    <section id="mainMenu">
+
+        <div class="menu-content">
+
+            <div class="menu-kicker">
+                COMBAT SIMULATION
+            </div>
+
+            <h1>WARSENAL</h1>
+
+            <p class="menu-subtitle">
+                CHOOSE YOUR WEAPON.<br>
+                ENTER THE ARENA.
+            </p>
+
+            <input
+                id="playerNameInput"
+                type="text"
+                maxlength="16"
+                autocomplete="nickname"
+                placeholder="ENTER YOUR NAME"
+                aria-label="Player name"
+            >
+
+            <button
+                id="play"
+                type="button"
+            >
+                PLAY
+            </button>
+
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         LEVEL SELECTION MENU
+         ============================== -->
+
+    <section
+        id="levelSelectMenu"
+        class="hidden"
+    >
+
+        <div class="selection-content">
+
+            <div class="selection-kicker">
+                ARENA CONFIGURATION
+            </div>
+
+            <h2>
+                CHOOSE YOUR ARENA
+            </h2>
+
+            <p class="selection-subtitle">
+                SELECT A BATTLEGROUND
+            </p>
+
+
+            <div id="levelSelectGrid">
+
+                <button
+                    class="selection-card"
+                    data-level="level1"
+                    type="button"
+                >
+                    <kbd>1</kbd>
+
+                    <strong>
+                        TRAINING GROUNDS
+                    </strong>
+
+                    <span>
+                        OPEN ARENA
+                    </span>
+                </button>
+
+
+                <button
+                    class="selection-card"
+                    data-level="level2"
+                    type="button"
+                >
+                    <kbd>2</kbd>
+
+                    <strong>
+                        RUINED ARENA
+                    </strong>
+
+                    <span>
+                        OBSTACLES
+                    </span>
+                </button>
+
+
+                <button
+                    class="selection-card"
+                    data-level="level3"
+                    type="button"
+                >
+                    <kbd>3</kbd>
+
+                    <strong>
+                        INFERNO
+                    </strong>
+
+                    <span>
+                        OBSTACLES · HAZARDS
+                    </span>
+                </button>
+
+            </div>
+
+
+            <div class="selection-footer">
+                1–3 SELECT · CLICK TO CONTINUE
+            </div>
+
+            <button
+                id="levelSelectBack"
+                class="selection-back"
+                type="button"
+            >
+                ← BACK
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         DIFFICULTY SELECTION MENU
+         ============================== -->
+
+    <section
+        id="difficultySelectMenu"
+        class="hidden"
+    >
+
+        <div class="selection-content">
+
+            <div class="selection-kicker">
+                COMBAT PARAMETERS
+            </div>
+
+            <h2>
+                CHOOSE DIFFICULTY
+            </h2>
+
+            <p class="selection-subtitle">
+                SELECT YOUR OPPONENT
+            </p>
+
+
+            <div id="difficultySelectGrid">
+
+                <button
+                    class="selection-card"
+                    data-difficulty="easy"
+                    type="button"
+                >
+                    <kbd>1</kbd>
+
+                    <strong>
+                        EASY
+                    </strong>
+
+                    <span>
+                        SLOWER · LESS ACCURATE
+                    </span>
+                </button>
+
+
+                <button
+                    class="selection-card"
+                    data-difficulty="normal"
+                    type="button"
+                >
+                    <kbd>2</kbd>
+
+                    <strong>
+                        NORMAL
+                    </strong>
+
+                    <span>
+                        BALANCED COMBAT
+                    </span>
+                </button>
+
+
+                <button
+                    class="selection-card"
+                    data-difficulty="hard"
+                    type="button"
+                >
+                    <kbd>3</kbd>
+
+                    <strong>
+                        HARD
+                    </strong>
+
+                    <span>
+                        FAST · AGGRESSIVE · ACCURATE
+                    </span>
+                </button>
+
+            </div>
+
+
+            <div class="selection-footer">
+                1–3 SELECT · CLICK TO CONTINUE
+            </div>
+
+            <button
+                id="difficultySelectBack"
+                class="selection-back"
+                type="button"
+            >
+                ← BACK
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         WEAPON SELECTION MENU
+         ============================== -->
+
+    <section
+        id="weaponSelectMenu"
+        class="hidden"
+    >
+
+        <div class="weapon-select-content">
+
+            <div class="weapon-select-kicker">
+                LOADOUT CONFIGURATION
+            </div>
+
+            <h2>
+                CHOOSE YOUR WEAPON
+            </h2>
+
+            <p class="weapon-select-subtitle">
+                SELECT ONE WEAPON TO ENTER THE ARENA
+            </p>
+
+
+            <div id="weaponSelectGrid">
+
+                <button
+                    class="weapon-select-card"
+                    data-weapon="sword"
+                    type="button"
+                >
+                    <kbd>1</kbd>
+                    <strong>⚔ SWORD</strong>
+                    <span>FAST STAB</span>
+                </button>
+
+
+                <button
+                    class="weapon-select-card"
+                    data-weapon="hammer"
+                    type="button"
+                >
+                    <kbd>2</kbd>
+                    <strong>🔨 HAMMER</strong>
+                    <span>HEAVY SMASH</span>
+                </button>
+
+
+                <button
+                    class="weapon-select-card"
+                    data-weapon="bow"
+                    type="button"
+                >
+                    <kbd>3</kbd>
+                    <strong>🏹 BOW</strong>
+                    <span>RANGED</span>
+                </button>
+
+
+                <button
+                    class="weapon-select-card"
+                    data-weapon="spear"
+                    type="button"
+                >
+                    <kbd>4</kbd>
+                    <strong>🔱 SPEAR</strong>
+                    <span>LONG STAB</span>
+                </button>
+
+
+                <button
+                    class="weapon-select-card"
+                    data-weapon="dagger"
+                    type="button"
+                >
+                    <kbd>5</kbd>
+                    <strong>🗡 DAGGER</strong>
+                    <span>VERY FAST</span>
+                </button>
+
+
+                <button
+                    class="weapon-select-card"
+                    data-weapon="staff"
+                    type="button"
+                >
+                    <kbd>6</kbd>
+                    <strong>🪄 STAFF</strong>
+                    <span>MAGIC RANGED</span>
+                </button>
+
+            </div>
+
+
+            <div class="weapon-select-footer">
+                1–6 SELECT · CLICK TO EQUIP
+            </div>
+
+            <button
+                id="weaponSelectBack"
+                class="selection-back"
+                type="button"
+            >
+                ← BACK
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         COMBAT HUD
+         ============================== -->
+
+    <section id="hud">
+
+        <div class="score-box player-score">
+
+            <span class="score-label">YOU</span>
+
+            <strong id="playerWins">
+                0
+            </strong>
+
+            <small>WINS</small>
+
+        </div>
+
+
+        <div id="match">
+
+            <small id="roundText">
+                ROUND 1 / 3
+            </small>
+
+            <strong id="status">
+                WARSENAL
+            </strong>
+
+            <small id="timer">
+                0.0
+            </small>
+
+        </div>
+
+
+        <div class="score-box enemy-score">
+
+            <span class="score-label">CPU</span>
+
+            <strong id="aiWins">
+                0
+            </strong>
+
+            <small>WINS</small>
+
+        </div>
+
+    </section>
+
+    <!-- ==============================
+         COMBAT WEAPON DISPLAY
+         ============================== -->
+
+    <section
+        id="weaponHud"
+        class="hidden"
+    >
+
+        <div id="equippedWeapon">
+
+            <small>EQUIPPED</small>
+
+            <strong id="equippedWeaponName">
+                NONE
+            </strong>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==============================
+         COOLDOWN
+         ============================== -->
+
+    <div id="cooldown">
+        READY
+    </div>
+
+
+    <!-- ==============================
+         CONTROLS
+         ============================== -->
+
+    <div id="controls">
+        WASD / ARROWS MOVE ·
+        MOUSE AIM ·
+        LMB ATTACK ·
+        SPACE DODGE
+    </div>
+
+
+    <!-- ==============================
+         MESSAGE
+         ============================== -->
+
+    <div
+        id="message"
+        class="hidden"
+    ></div>
+
+
+    <!-- ==============================
+         RESET
+         ============================== -->
+
+    <button
+        id="reset"
+        type="button"
+    >
+        NEW MATCH
+    </button>
+
+</main>
+
+
+<script
+    type="module"
+    src="./js/main.js"
+></script>
+
+</body>
+
+</html>

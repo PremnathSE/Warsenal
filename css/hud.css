@@ -1,0 +1,745 @@
+/* =================================
+   GLOBAL HUD
+   ================================= */
+
+#hud {
+    position: absolute;
+    z-index: 10;
+
+    top: 18px;
+    left: 18px;
+    right: 18px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(220px, 1fr)
+        auto
+        minmax(220px, 1fr);
+
+    align-items: start;
+
+    gap: 30px;
+
+    pointer-events: none;
+
+    box-sizing: border-box;
+}
+
+
+/* =================================
+   MATCH SCORE — TOP CORNERS
+   ================================= */
+
+.score-box {
+    position: absolute;
+
+    top: 0;
+
+    min-width: 72px;
+
+    padding:
+        8px 12px 9px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    background:
+        rgba(5, 10, 14, 0.78);
+
+    border-bottom:
+        2px solid #263840;
+
+    box-sizing: border-box;
+
+    pointer-events: none;
+}
+
+
+.score-box small {
+    font:
+        7px "Orbitron", sans-serif;
+
+    letter-spacing:
+        2px;
+
+    color:
+        #65777f;
+}
+
+
+.score-box strong {
+    font:
+        900 20px "Orbitron", sans-serif;
+
+    line-height:
+        1;
+}
+
+
+.player-score {
+    left: 0;
+
+    align-items: flex-start;
+
+    border-left:
+        3px solid var(--player);
+}
+
+
+.player-score strong {
+    color:
+        var(--player);
+}
+
+
+.enemy-score {
+    right: 0;
+
+    align-items: flex-end;
+
+    border-right:
+        3px solid #ff536d;
+}
+
+
+.enemy-score strong {
+    color:
+        #ff536d;
+}
+
+
+/* =================================
+   MATCH CENTER
+   ================================= */
+
+#hud #match {
+    grid-column: 2;
+
+    justify-self: center;
+
+    min-width: 120px;
+
+    padding:
+        5px 14px 10px;
+
+    text-align: center;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 5px;
+
+    background:
+        rgba(5, 10, 14, 0.72);
+
+    border-left:
+        1px solid #263840;
+
+    border-right:
+        1px solid #263840;
+
+    box-sizing: border-box;
+}
+
+
+/* =================================
+   MATCH SMALL TEXT
+   ================================= */
+
+#match small {
+    color:
+        #65777f;
+
+    font:
+        8px "Orbitron", sans-serif;
+
+    letter-spacing:
+        2px;
+}
+
+
+/* =================================
+   MATCH STATUS
+   ================================= */
+
+#status {
+    color:
+        var(--player);
+
+    font:
+        900 17px "Orbitron", sans-serif;
+
+    letter-spacing:
+        3px;
+
+    white-space:
+        nowrap;
+}
+
+
+/* =================================
+   TIMER
+   ================================= */
+
+#timer {
+    color:
+        #d6e0e3 !important;
+
+    font-size:
+        13px !important;
+}
+
+
+/* =================================
+   COMBAT WEAPON DISPLAY
+   ================================= */
+
+#weaponHud {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 18px;
+    bottom: 46px;
+
+    pointer-events: none;
+
+    box-sizing: border-box;
+}
+
+
+#equippedWeapon {
+    min-width: 145px;
+
+    padding:
+        10px 13px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    background:
+        rgba(5, 11, 15, 0.92);
+
+    border:
+        1px solid #263840;
+
+    border-left:
+        3px solid var(--player);
+
+    border-radius: 4px;
+
+    box-sizing: border-box;
+}
+
+
+/* =================================
+   EQUIPPED LABEL
+   ================================= */
+
+#equippedWeapon small {
+    color:
+        #586b73;
+
+    font:
+        7px "Orbitron", sans-serif;
+
+    letter-spacing:
+        2px;
+}
+
+
+/* =================================
+   EQUIPPED WEAPON NAME
+   ================================= */
+
+#equippedWeaponName {
+    color:
+        var(--player);
+
+    font:
+        900 12px "Orbitron", sans-serif;
+
+    letter-spacing:
+        1px;
+}
+
+
+/* =================================
+   COOLDOWN
+   ================================= */
+
+#cooldown {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 18px;
+    bottom: 112px;
+
+    padding:
+        6px 10px;
+
+    color:
+        var(--player);
+
+    background:
+        rgba(5, 11, 15, 0.86);
+
+    border-left:
+        2px solid var(--player);
+
+    font:
+        8px "Orbitron", sans-serif;
+
+    letter-spacing:
+        2px;
+
+    pointer-events:
+        none;
+
+    box-sizing:
+        border-box;
+}
+
+
+/* =================================
+   CONTROLS
+   ================================= */
+
+#controls {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 50%;
+    bottom: 14px;
+
+    transform:
+        translateX(-50%);
+
+    color:
+        #465960;
+
+    font:
+        7px "Orbitron", sans-serif;
+
+    letter-spacing:
+        1.5px;
+
+    white-space:
+        nowrap;
+
+    pointer-events:
+        none;
+}
+
+
+/* =================================
+   RESULT MESSAGE
+   ================================= */
+
+#message {
+    position: absolute;
+
+    z-index: 50;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%);
+
+    min-width: 320px;
+
+    padding:
+        28px 42px;
+
+    text-align: center;
+
+    white-space:
+        pre-line;
+
+    background:
+        rgba(5, 10, 14, 0.97);
+
+    border:
+        1px solid var(--player);
+
+    border-radius:
+        4px;
+
+    color:
+        var(--text);
+
+    font:
+        900 18px "Orbitron", sans-serif;
+
+    letter-spacing:
+        3px;
+
+    box-sizing:
+        border-box;
+}
+
+
+/* =================================
+   NEW MATCH BUTTON
+   ================================= */
+
+#reset {
+    position: absolute;
+
+    z-index: 15;
+
+    right: 18px;
+    bottom: 46px;
+
+    padding:
+        9px 13px;
+
+    background:
+        rgba(5, 11, 15, 0.90);
+
+    color:
+        #71838a;
+
+    border:
+        1px solid #263840;
+
+    border-radius:
+        4px;
+
+    font:
+        8px "Orbitron", sans-serif;
+
+    letter-spacing:
+        1px;
+
+    cursor:
+        pointer;
+
+    transition:
+        color 0.15s ease,
+        border-color 0.15s ease,
+        background 0.15s ease;
+}
+
+
+#reset:hover {
+    color:
+        var(--player);
+
+    border-color:
+        var(--player);
+
+    background:
+        rgba(5, 11, 15, 0.98);
+}
+
+
+#reset:active {
+    transform:
+        translateY(1px);
+}
+
+
+/* =================================
+   HIDDEN
+   ================================= */
+
+.hidden {
+    display:
+        none !important;
+}
+
+
+/* =================================
+   SEPARATE WEAPON MENU
+   ================================= */
+
+/*
+ * Weapon selection is a separate
+ * full-screen menu.
+ *
+ * It is NOT part of the combat HUD.
+ */
+
+#weaponSelectMenu {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 100;
+
+    box-sizing: border-box;
+}
+
+
+/*
+ * Allow weapon cards to receive clicks.
+ */
+
+#weaponSelectMenu button {
+    pointer-events:
+        auto;
+}
+
+
+/* =================================
+   MAIN MENU LAYER
+   ================================= */
+
+#mainMenu {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 100;
+
+    box-sizing: border-box;
+}
+
+
+/* =================================
+   CANVAS
+   ================================= */
+
+#gameCanvas {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 0;
+
+    display: block;
+}
+
+
+/* =================================
+   TABLET
+   ================================= */
+
+@media (max-width: 800px) {
+
+    #hud {
+        top: 12px;
+        left: 12px;
+        right: 12px;
+
+        gap: 10px;
+    }
+
+
+    #controls {
+        display:
+            none;
+    }
+
+
+    #status {
+        font-size:
+            13px;
+    }
+
+
+    #hud #match {
+        min-width:
+            100px;
+    }
+}
+
+
+/* =================================
+   MOBILE
+   ================================= */
+
+@media (max-width: 550px) {
+
+    #hud {
+        top: 8px;
+        left: 8px;
+        right: 8px;
+
+        gap: 8px;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            auto
+            minmax(0, 1fr);
+    }
+
+
+    #hud #match {
+        min-width:
+            76px;
+
+        padding:
+            4px 7px 7px;
+
+        gap:
+            3px;
+    }
+
+
+    #match small {
+        font-size:
+            6px;
+    }
+
+
+    #status {
+        font-size:
+            10px;
+
+        letter-spacing:
+            2px;
+    }
+
+
+    #timer {
+        font-size:
+            10px !important;
+    }
+
+
+    .score-box {
+        min-width:
+            62px;
+
+        padding:
+            6px 8px 7px;
+    }
+
+
+    .score-box small {
+        font-size:
+            6px;
+
+        letter-spacing:
+            1.5px;
+    }
+
+
+    .score-box strong {
+        font-size:
+            16px;
+    }
+
+
+    #weaponHud {
+        left:
+            8px;
+
+        bottom:
+            38px;
+    }
+
+
+    #equippedWeapon {
+        min-width:
+            120px;
+
+        padding:
+            8px 10px;
+    }
+
+
+    #equippedWeaponName {
+        font-size:
+            10px;
+    }
+
+
+    #cooldown {
+        left:
+            8px;
+
+        bottom:
+            92px;
+
+        padding:
+            5px 8px;
+
+        font-size:
+            7px;
+    }
+
+
+    #reset {
+        right:
+            8px;
+
+        bottom:
+            38px;
+
+        padding:
+            8px 10px;
+    }
+
+
+    #message {
+        min-width:
+            min(300px, 90vw);
+
+        padding:
+            22px 24px;
+
+        font-size:
+            15px;
+    }
+}
+
+
+/* =================================
+   VERY SMALL SCREENS
+   ================================= */
+
+@media (max-width: 380px) {
+
+    #hud {
+        grid-template-columns:
+            minmax(0, 1fr)
+            auto
+            minmax(0, 1fr);
+
+        gap:
+            5px;
+    }
+
+
+    #hud #match {
+        min-width:
+            65px;
+    }
+
+
+    #status {
+        font-size:
+            9px;
+
+        letter-spacing:
+            1px;
+    }
+
+
+    #weaponHud {
+        bottom:
+            34px;
+    }
+
+
+    #reset {
+        bottom:
+            34px;
+    }
+}

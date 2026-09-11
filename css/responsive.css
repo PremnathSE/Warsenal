@@ -1,0 +1,6 @@
+@media(max-width:700px){
+  .health-box{width:145px}
+  .weapon-card{width:92px}
+  .weapon-card small,#controls{display:none}
+  #status{font-size:12px}
+}
