@@ -56,6 +56,65 @@ export class SoundManager {
     }
 
 
+    /*
+     * =================================
+     * BACKGROUND MUSIC
+     * =================================
+     */
+
+    startMusic() {
+        if (!this.enabled || !this.unlocked || !this.context || this.musicTimer) return;
+
+        const ctx = this.context;
+        const master = ctx.createGain();
+        master.gain.value = 0.045;
+        master.connect(this.master);
+        this.musicGain = master;
+
+        const bass = [55, 55, 73.42, 49];
+        const lead = [220, 261.63, 329.63, 293.66, 246.94, 196, 220, 164.81];
+        let step = 0;
+
+        const playStep = () => {
+            if (!this.enabled || !this.context || !this.musicGain) return;
+            const now = ctx.currentTime;
+            const b = ctx.createOscillator();
+            const bg = ctx.createGain();
+            b.type = "sawtooth";
+            b.frequency.setValueAtTime(bass[Math.floor(step / 2) % bass.length], now);
+            bg.gain.setValueAtTime(0.0001, now);
+            bg.gain.exponentialRampToValueAtTime(0.7, now + 0.025);
+            bg.gain.exponentialRampToValueAtTime(0.0001, now + 0.38);
+            b.connect(bg); bg.connect(master); b.start(now); b.stop(now + 0.42);
+
+            const l = ctx.createOscillator();
+            const lg = ctx.createGain();
+            l.type = "triangle";
+            l.frequency.setValueAtTime(lead[step % lead.length], now);
+            lg.gain.setValueAtTime(0.0001, now);
+            lg.gain.exponentialRampToValueAtTime(0.55, now + 0.018);
+            lg.gain.exponentialRampToValueAtTime(0.0001, now + 0.25);
+            l.connect(lg); lg.connect(master); l.start(now); l.stop(now + 0.28);
+            step++;
+        };
+
+        playStep();
+        this.musicTimer = setInterval(playStep, 420);
+    }
+
+    stopMusic() {
+        if (this.musicTimer) {
+            clearInterval(this.musicTimer);
+            this.musicTimer = null;
+        }
+        if (this.musicGain && this.context) {
+            const now = this.context.currentTime;
+            this.musicGain.gain.cancelScheduledValues(now);
+            this.musicGain.gain.setTargetAtTime(0.0001, now, 0.08);
+            this.musicGain = null;
+        }
+    }
+
     setEnabled(enabled) {
         this.enabled = !!enabled;
 

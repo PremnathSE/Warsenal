@@ -367,6 +367,8 @@ export class Game {
                     this.playerName =
                         enteredName;
 
+                    this.sound.startMusic();
+
                     if (
                         this.hud &&
                         typeof this.hud.setPlayerName ===
