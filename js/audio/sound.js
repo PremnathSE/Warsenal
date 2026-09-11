@@ -255,104 +255,169 @@ export class SoundManager {
      * =================================
      */
 
-    weaponAttack(name) {
+    /*
+     * MELEE WEAPONS
+     * Sword / Hammer / Spear / Dagger
+     * Each gets a distinct physical attack character.
+     */
+    meleeAttack(name) {
         const weapon =
             String(name || "").toLowerCase();
 
         switch (weapon) {
             case "sword":
+                // Fast metallic slash.
                 this.tone({
-                    frequency: 360,
-                    endFrequency: 120,
-                    duration: 0.11,
+                    frequency: 780,
+                    endFrequency: 180,
+                    duration: 0.12,
                     type: "sawtooth",
                     volume: 0.075
                 });
                 this.noise({
-                    duration: 0.07,
-                    volume: 0.025,
-                    filterFrequency: 3200
+                    duration: 0.075,
+                    volume: 0.032,
+                    filterFrequency: 5200
                 });
                 break;
 
             case "hammer":
+                // Heavy low-frequency impact / swing.
                 this.tone({
-                    frequency: 120,
-                    endFrequency: 48,
-                    duration: 0.16,
+                    frequency: 145,
+                    endFrequency: 42,
+                    duration: 0.18,
                     type: "square",
-                    volume: 0.09
+                    volume: 0.095
                 });
                 this.noise({
-                    duration: 0.13,
-                    volume: 0.06,
-                    filterFrequency: 850
+                    duration: 0.14,
+                    volume: 0.065,
+                    filterFrequency: 700
                 });
                 break;
 
             case "spear":
+                // Sharp forward thrust.
                 this.tone({
-                    frequency: 620,
-                    endFrequency: 180,
-                    duration: 0.09,
+                    frequency: 980,
+                    endFrequency: 230,
+                    duration: 0.085,
                     type: "sawtooth",
                     volume: 0.065
+                });
+                this.noise({
+                    duration: 0.045,
+                    volume: 0.022,
+                    filterFrequency: 4200
                 });
                 break;
 
             case "dagger":
+                // Short, tight knife swipe.
                 this.tone({
-                    frequency: 820,
-                    endFrequency: 260,
-                    duration: 0.065,
+                    frequency: 1120,
+                    endFrequency: 340,
+                    duration: 0.06,
                     type: "triangle",
-                    volume: 0.055
+                    volume: 0.06
                 });
                 break;
 
-            case "bow":
+            default:
                 this.tone({
-                    frequency: 260,
-                    endFrequency: 720,
+                    frequency: 520,
+                    endFrequency: 160,
                     duration: 0.09,
-                    type: "triangle",
+                    type: "sawtooth",
                     volume: 0.055
                 });
+        }
+    }
+
+
+    /*
+     * RANGED WEAPONS
+     * Bow / Staff
+     * These deliberately sound more airy / energy-based than melee.
+     */
+    rangedAttack(name) {
+        const weapon =
+            String(name || "").toLowerCase();
+
+        switch (weapon) {
+            case "bow":
+                // Bowstring snap followed by an arrow whoosh.
+                this.tone({
+                    frequency: 210,
+                    endFrequency: 760,
+                    duration: 0.075,
+                    type: "triangle",
+                    volume: 0.065
+                });
                 this.noise({
-                    duration: 0.055,
-                    volume: 0.035,
-                    filterFrequency: 5000,
+                    duration: 0.11,
+                    volume: 0.038,
+                    filterFrequency: 6200,
                     delay: 0.025
                 });
                 break;
 
             case "staff":
+                // Charged magical pulse.
                 this.tone({
-                    frequency: 180,
+                    frequency: 150,
                     endFrequency: 520,
-                    duration: 0.16,
+                    duration: 0.18,
                     type: "sine",
-                    volume: 0.065
+                    volume: 0.07
                 });
                 this.tone({
                     frequency: 720,
-                    endFrequency: 420,
-                    duration: 0.12,
+                    endFrequency: 1180,
+                    duration: 0.13,
                     type: "triangle",
-                    volume: 0.04,
-                    delay: 0.035
+                    volume: 0.045,
+                    delay: 0.045
+                });
+                this.noise({
+                    duration: 0.09,
+                    volume: 0.022,
+                    filterFrequency: 3500,
+                    delay: 0.04
                 });
                 break;
 
             default:
                 this.tone({
                     frequency: 300,
-                    endFrequency: 150,
-                    duration: 0.08,
-                    type: "square",
+                    endFrequency: 700,
+                    duration: 0.10,
+                    type: "triangle",
                     volume: 0.05
                 });
         }
+    }
+
+
+    /*
+     * Public weapon entry point.
+     * Game.js can keep calling weaponAttack(name);
+     * the sound manager decides whether the weapon is melee or ranged.
+     */
+    weaponAttack(name) {
+        const weapon =
+            String(name || "").toLowerCase();
+
+        if (
+            weapon === "bow" ||
+            weapon === "staff"
+        ) {
+            this.rangedAttack(weapon);
+            return;
+        }
+
+        this.meleeAttack(weapon);
     }
 
 

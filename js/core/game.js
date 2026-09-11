@@ -860,6 +860,74 @@ export class Game {
 
     /*
      * =================================
+     * BACK TO DIFFICULTY SELECTION
+     * =================================
+     */
+
+    goBackToDifficultySelection() {
+
+        this.clearCombatInput();
+
+        const mainMenu =
+            document.getElementById(
+                "mainMenu"
+            );
+
+        const levelMenu =
+            document.getElementById(
+                "levelSelectMenu"
+            );
+
+        const difficultyMenu =
+            document.getElementById(
+                "difficultySelectMenu"
+            );
+
+        const weaponMenu =
+            document.getElementById(
+                "weaponSelectMenu"
+            );
+
+        if (mainMenu) {
+            mainMenu.classList.add(
+                "hidden"
+            );
+        }
+
+        if (levelMenu) {
+            levelMenu.classList.add(
+                "hidden"
+            );
+        }
+
+        if (difficultyMenu) {
+            difficultyMenu.classList.remove(
+                "hidden"
+            );
+        }
+
+        if (weaponMenu) {
+            weaponMenu.classList.add(
+                "hidden"
+            );
+        }
+
+        this.state.phase =
+            GamePhase.DIFFICULTY_SELECT;
+
+        this.state.timeLeft =
+            0;
+
+        this.hud.status(
+            "SELECT DIFFICULTY"
+        );
+
+        this.hud.hideMessage();
+    }
+
+
+    /*
+     * =================================
      * BACK BUTTON VISIBILITY
      * =================================
      */
