@@ -13,6 +13,7 @@ import { applyKnockback } from "../combat/knockback.js";
 
 import { Renderer } from "../rendering/renderer.js";
 import { HUD } from "../ui/hud.js";
+import { SoundManager } from "../audio/sound.js";
 
 import {
     GameState,
@@ -58,6 +59,16 @@ export class Game {
                 this.keyboard,
                 this.mouse
             );
+
+
+        /*
+         * =================================
+         * SOUND
+         * =================================
+         */
+
+        this.sound =
+            new SoundManager();
 
 
         /*
@@ -327,6 +338,9 @@ export class Game {
             playButton.addEventListener(
                 "click",
                 () => {
+
+                    this.sound.unlock();
+                    this.sound.uiClick();
 
                     const nameInput =
                         document.getElementById(
@@ -1378,6 +1392,8 @@ export class Game {
         levelId
     ) {
 
+        this.sound.uiSelect();
+
         if (
             this.state.phase !==
             GamePhase.LEVEL_SELECT
@@ -1525,6 +1541,8 @@ export class Game {
     selectDifficulty(
         difficulty
     ) {
+
+        this.sound.uiSelect();
 
         if (
             this.state.phase !==
@@ -1805,6 +1823,8 @@ export class Game {
     selectWeapon(
         name
     ) {
+
+        this.sound.uiSelect();
 
         if (
             this.state.phase !==
@@ -2164,6 +2184,8 @@ export class Game {
         this.state.phase =
             GamePhase.ROUND;
 
+        this.sound.roundStart();
+
         this.setBackButtonsVisible(false);
 
 
@@ -2335,6 +2357,18 @@ export class Game {
 
         );
 
+        if (over) {
+            if (winner === "player") {
+                this.sound.matchWin();
+            } else {
+                this.sound.matchLose();
+            }
+        } else if (winner === "player") {
+            this.sound.roundWin();
+        } else {
+            this.sound.roundLose();
+        }
+
 
         /*
          * =================================
@@ -2486,6 +2520,9 @@ export class Game {
 
                 if (damaged) {
 
+                    this.sound.projectileImpact();
+                    this.sound.hurt();
+
                     applyKnockback(
                         projectile.owner,
                         target,
@@ -2543,10 +2580,15 @@ export class Game {
             this.player.weapon
         ) {
 
-            processMeleeHit(
-                this.player,
-                this.ai
-            );
+            const playerMeleeHit =
+                processMeleeHit(
+                    this.player,
+                    this.ai
+                );
+
+            if (playerMeleeHit) {
+                this.sound.hit();
+            }
 
         }
 
@@ -2559,10 +2601,15 @@ export class Game {
             this.ai.weapon
         ) {
 
-            processMeleeHit(
-                this.ai,
-                this.player
-            );
+            const aiMeleeHit =
+                processMeleeHit(
+                    this.ai,
+                    this.player
+                );
+
+            if (aiMeleeHit) {
+                this.sound.hit();
+            }
 
         }
 
@@ -2787,12 +2834,26 @@ export class Game {
          * =================================
          */
 
+        const playerWasDodging =
+            this.player.dodgeDuration > 0;
+
+        const spaceWasDown =
+            this.player.dodgeKeyWasDown;
+
         this.player.updateMovement(
             this.keyboard,
             dt,
             this.renderer.width,
             this.renderer.height
         );
+
+        if (
+            !playerWasDodging &&
+            !spaceWasDown &&
+            this.player.dodgeDuration > 0
+        ) {
+            this.sound.dodge();
+        }
 
 
         /*
@@ -2883,6 +2944,12 @@ export class Game {
 
                 }
 
+                if (attack) {
+                    this.sound.weaponAttack(
+                        this.player.weapon.name
+                    );
+                }
+
             }
 
         }
@@ -2936,6 +3003,12 @@ export class Game {
                         attack.projectile
                     );
 
+                }
+
+                if (attack) {
+                    this.sound.weaponAttack(
+                        this.ai.weapon.name
+                    );
                 }
 
             }
